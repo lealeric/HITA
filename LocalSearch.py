@@ -16,6 +16,7 @@ class LocalSearch:
         self.pos = None
         self.node_colors = {}
         self.used_colors = set()
+        self.changed = []
         self.best_partition = None
         
     def random_color(self):
@@ -118,7 +119,6 @@ class LocalSearch:
                         self.node_colors[node] = new_color
                         self.changed.add(node)
                     
-                    # ILS.draw_partition(graph, partition, title=f"Nó {node} movido")
                     self.save_frame(title=f"Nó {node} movido")
                     
         return partition
