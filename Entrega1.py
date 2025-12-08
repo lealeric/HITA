@@ -1,3 +1,183 @@
+# import networkx as nx
+# import matplotlib.pyplot as plt
+# from scipy.io import mmread
+# from time import time
+# import HC1, HC2, HC3
+
+# # Rede do clube de Karatê
+# g_karate = nx.karate_club_graph()
+
+# partition = nx.community.greedy_modularity_communities(g_karate)
+# print(f"O algoritmo gerou {len(partition)} comunidades, com modularidade igual a {nx.community.modularity(g_karate, partition)}")
+
+# t0 = time()
+# h1_karate = HC1.HC1(g_karate)
+# h1_karate.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h1_karate)
+
+# t0 = time()
+# h1_karate_optimal = HC1.HC1(g_karate)
+# h1_karate_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h1_karate_optimal)
+
+# t0 = time()
+# h2_karate = HC2.HC2(g_karate)
+# h2_karate.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h2_karate)
+
+# t0 = time()
+# h2_karate_optimal = HC2.HC2(g_karate)
+# h2_karate_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h2_karate_optimal)
+
+# t0 = time()
+# h3_karate = HC3.HC3(g_karate)
+# h3_karate.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h3_karate)
+
+# t0 = time()
+# h3_karate_optimal = HC3.HC3(g_karate)
+# h3_karate_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h3_karate_optimal)
+
+
+# # Rede de interação dos golfinhos
+# g_golfinhos = nx.Graph(mmread('./soc-dolphins.mtx'))
+
+# partition_golfinhos = nx.community.greedy_modularity_communities(g_golfinhos)
+# print(f"O algoritmo gerou {len(partition_golfinhos)} comunidades, com modularidade igual a {nx.community.modularity(g_golfinhos, partition_golfinhos)}")
+
+# t0 = time()
+# h1_golfinhos = HC1.HC1(g_golfinhos)
+# h1_golfinhos.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h1_golfinhos)
+
+# t0 = time()
+# h1_golfinhos_optimal = HC1.HC1(g_golfinhos)
+# h1_golfinhos_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h1_golfinhos_optimal)
+
+# t0 = time()
+# h2_golfinhos = HC2.HC2(g_golfinhos)
+# h2_golfinhos.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h2_golfinhos)
+
+# t0 = time()
+# h2_golfinhos_optimal = HC2.HC2(g_golfinhos)
+# h2_golfinhos_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h2_golfinhos_optimal)
+
+# t0 = time()
+# h3_golfinhos = HC3.HC3(g_golfinhos)
+# h3_golfinhos.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h3_golfinhos)
+
+# t0 = time()
+# h3_golfinhos_optimal = HC3.HC3(g_golfinhos)
+# h3_golfinhos_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h3_golfinhos_optimal)
+
+
+
+# # Rede Futebol Americano
+# g_futebol = nx.read_gml('./football.gml')
+
+# partition_futebol = nx.community.greedy_modularity_communities(g_futebol)
+# print(f"O algoritmo gerou {len(partition_futebol)} comunidades, com modularidade igual a {nx.community.modularity(g_futebol, partition_futebol)}")
+
+# t0 = time()
+# h1_futebol = HC1.HC1(g_futebol)
+# h1_futebol.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h1_futebol)
+
+# t0 = time()
+# h1_futebol_optimal = HC1.HC1(g_futebol)
+# h1_futebol_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h1_futebol_optimal)
+
+# t0 = time()
+# h2_futebol = HC2.HC2(g_futebol)
+# h2_futebol.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h2_futebol)
+
+# t0 = time()
+# h2_futebol_optimal = HC2.HC2(g_futebol)
+# h2_futebol_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h2_futebol_optimal)
+
+# t0 = time()
+# h3_futebol = HC3.HC3(g_futebol)
+# h3_futebol.execute()
+# print(f"Processado em {time() - t0} segundos")
+# print(h3_futebol)
+
+# t0 = time()
+# h3_futebol_optimal = HC3.HC3(g_futebol)
+# h3_futebol_optimal.execute(optmize=True)
+# print(f"Processado em {time() - t0} segundos")
+# print(h3_futebol_optimal)
+
+
+# # Plotando as redes
+
+# node_colors_karate = {}
+
+# for i, comm in enumerate(h1_karate_optimal.partition):
+#     for node in comm:
+#         node_colors_karate[node] = f'C{i}'
+
+# nx.set_node_attributes(g_karate, node_colors_karate, 'color')
+
+# node_colors_golfinhos = {}
+
+# for i, comm in enumerate(h1_golfinhos_optimal.partition):
+#     for node in comm:
+#         node_colors_golfinhos[node] = f'C{i}'
+
+# nx.set_node_attributes(g_golfinhos, node_colors_golfinhos, 'color')
+
+# node_colors_futebol = {}
+
+# for i, comm in enumerate(h1_futebol_optimal.partition):
+#     for node in comm:
+#         node_colors_futebol[node] = f'C{i}'
+
+# nx.set_node_attributes(g_futebol, node_colors_futebol, 'color')
+
+# plt.figure(figsize=(12, 10))
+
+# ax1 = plt.subplot(2, 2, 1)
+# nx.draw(g_karate, node_color=list(nx.get_node_attributes(g_karate, 'color').values()), ax=ax1)
+# ax1.set_title('Karate Club')
+
+# ax2 = plt.subplot(2, 2, 2)
+# nx.draw(g_golfinhos, node_color=list(nx.get_node_attributes(g_golfinhos, 'color').values()), ax=ax2)
+# ax2.set_title('Golfinhos')
+
+# ax3 = plt.subplot(2, 2, 3)
+# nx.draw(g_futebol, node_color=list(nx.get_node_attributes(g_futebol, 'color').values()), ax=ax3)
+# ax3.set_title('Futebol Americano')
+
+# plt.tight_layout()
+# plt.show()
+
+
 import networkx as nx
 import matplotlib.pyplot as plt
 from scipy.io import mmread
@@ -79,6 +259,7 @@ def process_network(graph, name):
 
     ils_results = []
     ils_durations = []
+    print("🐍 File: HITA/Entrega1.py | Line: 263 | process_network ~ results",len(results))
     for r in results:
         if r["Otimizado"] == "Não":
             continue
@@ -121,12 +302,27 @@ def process_network(graph, name):
 g_karate = nx.karate_club_graph()
 g_golfinhos = nx.Graph(mmread("./soc-dolphins.mtx"))
 g_futebol = nx.read_gml("./football.gml")
+g_miseraveis = nx.les_miserables_graph()
+g_florentine = nx.florentine_families_graph()
+g_erdos_100 = nx.erdos_renyi_graph(100, 0.01, seed=42)
+print("Grafos Erdos 100 gerados com sucesso")
+g_erdos_500 = nx.erdos_renyi_graph(500, 0.01, seed=42)
+print("Grafos Erdos 500 gerados com sucesso")
+g_erdos_1000 = nx.erdos_renyi_graph(1000, 0.01, seed=42)
+print("Grafos Erdos 1000 gerados com sucesso")
+
+print("Grafos gerados com sucesso")
 
 # Execução geral
 results_all = []
 results_all += process_network(g_karate, "Karatê")
-# results_all += process_network(g_golfinhos, "Golfinhos")
-# results_all += process_network(g_futebol, "Futebol Americano")
+results_all += process_network(g_golfinhos, "Golfinhos")
+results_all += process_network(g_futebol, "Futebol Americano")
+results_all += process_network(g_miseraveis, "Les Miserables")
+results_all += process_network(g_florentine, "Florentine")
+results_all += process_network(g_erdos_100, "Erdos 100")
+results_all += process_network(g_erdos_500, "Erdos 500")
+results_all += process_network(g_erdos_1000, "Erdos 1000")
 
 # Resumo final
 print("\n📊 RESULTADOS FINAIS")

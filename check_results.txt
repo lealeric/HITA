@@ -1,0 +1,12 @@
+Stochastic Graph: 450 nodes, 22160 edges
+Running HC3 (Label Propagation)...
+Time: 0.0085s
+Number of communities: 1
+Modularity: 0.0
+Partition sizes: [450]
+
+Running HC3 (Label Propagation) with Optimization...
+Time: 0.0197s
+Number of communities (Optimized): 1
+Modularity (Optimized): 0.0
+Partition sizes (Optimized): [450]

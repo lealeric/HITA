@@ -1,9 +1,9 @@
-from random import choice, random
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import imageio
+from random import choice, random
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 class ILS:
@@ -124,6 +124,9 @@ class ILS:
                 
                 best_comm = current_comm
                 best_mod = max(self.modularity(graph, partition), self.original_modularity)
+                # print("🐍 File: HITA/ILS.py | Line: 127 | local_search ~ self.original_modularity",self.original_modularity)
+                # print("🐍 File: HITA/ILS.py | Line: 127 | local_search ~ self.modularity(graph, partition",self.modularity(graph, partition))
+                # print("🐍 File: HITA/ILS.py | Line: 127 | local_search ~ best_mod",best_mod)
                 
                 for nc in neighbor_comms:
                     current_comm.remove(node)
@@ -228,13 +231,13 @@ class ILS:
         partition = self.local_search(self.h.graph, self.h.partition)
         self.best_partition = partition
         
-        for i in range(self.max_iterations):
-            print(f"Iteração {i+1}/{self.max_iterations}")
-            new_partition = self.disturb()
-            new_partition = self.local_search(self.h.graph, new_partition)
+        # for i in range(self.max_iterations):
+        #     print(f"Iteração {i+1}/{self.max_iterations}")
+        #     new_partition = self.disturb()
+        #     new_partition = self.local_search(self.h.graph, new_partition)
             
-            if self.modularity(self.h.graph, new_partition) > self.modularity(self.h.graph, self.best_partition):
-                self.best_partition = new_partition
+        #     if self.modularity(self.h.graph, new_partition) > self.modularity(self.h.graph, self.best_partition):
+        #         self.best_partition = new_partition
                 
         
         # plt.figure(figsize=(6,6))

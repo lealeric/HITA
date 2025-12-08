@@ -69,10 +69,6 @@ def plot_partition(graph, algo, title):
 def process_network(graph, name):
     """Executa todos os algoritmos e mostra resultados + plots."""
     print(f"\n🔹 Processando rede: {name}")
-    partition = nx.community.greedy_modularity_communities(graph)
-    modularity = nx.community.modularity(graph, partition)
-    print(f"Greedy: {len(partition)} comunidades | modularidade = {modularity:.4f}\n")
-
     results = []
     for alg in [HC1.HC1, HC2.HC2, HC3.HC3]:
         results += run_algorithm(alg, graph, name)
@@ -91,7 +87,7 @@ def process_network(graph, name):
                 "Rede": name,
                 "Otimizado": "Sim",
                 "Comunidades": len(ls.best_partition),
-                "Modularidade": ls.modularity(ls.h.graph, ls.best_partition),
+                "Modularidade": ls.modularity(),
                 "Tempo (s)": round(duration, 4),
                 "Objeto": ls
             })
@@ -121,8 +117,8 @@ g_futebol = nx.read_gml("./football.gml")
 # Execução geral
 results_all = []
 results_all += process_network(g_karate, "Karatê")
-# results_all += process_network(g_golfinhos, "Golfinhos")
-# results_all += process_network(g_futebol, "Futebol Americano")
+results_all += process_network(g_golfinhos, "Golfinhos")
+results_all += process_network(g_futebol, "Futebol Americano")
 
 # Resumo final
 print("\n📊 RESULTADOS FINAIS")

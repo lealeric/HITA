@@ -8,12 +8,29 @@ class HC2:
         self.partition = []
         self.n_partitions = 0
 
+    def community_ratio(self, community):
+        e_in=0
+        e_out=0
+        for node in community:
+            for neighbor in self.graph.neighbors(node):
+                if neighbor in community:
+                    e_in += 1
+                else:
+                    e_out += 1
+        e_in = e_in // 2
+        return e_in / (e_out + 1)
+
+
     def _calculate_heuristic_gain(self, node, community):
-        gain = 0
+        e_in=0
+        e_out=0
         for neighbor in self.graph.neighbors(node):
             if neighbor in community:
-                gain += 1
-        return gain
+                e_in += 1
+            else:
+                e_out += 1
+
+        return e_in / (e_out + 1)
     
     def remove_redundancy(self):
         improved = True
@@ -71,27 +88,30 @@ class HC2:
                 unassigned_nodes.remove(node)
                 
                 candidate_set = {neighbor for neighbor in self.graph.neighbors(node) if neighbor in unassigned_nodes}
+                
+                current_ratio = self.community_ratio(new_community)
 
                 while True:
                     best_candidate = None
-                    max_gain = -1
+                    best_gain = current_ratio
                     
                     for candidate in candidate_set:
                         gain = self._calculate_heuristic_gain(candidate, new_community)
-                        if gain > max_gain:
-                            max_gain = gain
+                        if gain > best_gain:
+                            best_gain = gain
                             best_candidate = candidate
                     
-                    if best_candidate and max_gain > 0:
-                        new_community.add(best_candidate)
-                        unassigned_nodes.remove(best_candidate)
-                        candidate_set.remove(best_candidate)
-                        
-                        for neighbor in self.graph.neighbors(best_candidate):
-                            if neighbor in unassigned_nodes:
-                                candidate_set.add(neighbor)
-                    else:
+                    if best_candidate is None:
                         break
+                        
+                    new_community.add(best_candidate)
+                    unassigned_nodes.remove(best_candidate)
+                    candidate_set.remove(best_candidate)
+                    
+                    current_ratio = best_gain
+                    
+                    new_neigbors = {neighbor for neighbor in self.graph.neighbors(best_candidate) if neighbor in unassigned_nodes}
+                    candidate_set.update(new_neigbors)
                 
                 self.partition.append(list(new_community))
         

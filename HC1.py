@@ -59,21 +59,19 @@ class HC1:
         Fórmula: Q = sum_c [ lc/(2m) - (dc/(2m))^2 ]
         """
         m = self.graph.number_of_edges()
-        if m == 0:
-            return 0.0
-
-        Q = 0.0
+        Q = 0
         for community in self.partition:
+            community_nodes = set(community)
             lc = 0 
-            for u in community:
-                for v in community:
-                    # contar cada aresta interna uma vez
-                    if u > v and self.graph.has_edge(u, v):
-                        lc += self.graph[u][v].get('weight', 1)
-            
-            dc = sum(self.graph.degree(node) for node in community)
-            # usar lc/(2*m) (pois lc foi contado uma vez)
-            Q += (lc / (2 * m)) - (dc / (2 * m))**2
+            dc = 0 
+            for u in community_nodes:
+                dc += self.graph.degree(u)
+                for v in self.graph.neighbors(u):
+                    if v in community_nodes:
+                        lc += 1
+            lc /= 2
+            if m > 0:
+                Q += (lc / m) - (dc / (2 * m))**2
         return Q
 
     def remove_redundancy(self):

@@ -8,27 +8,26 @@ import imageio
 
 class LocalSearch:
     def __init__(self, h, network_name: str, original_modularity: float):
-        self.best_partition = None
         self.h = h
         self.network_name = network_name
         self.original_modularity = original_modularity
         self.frames = []
-        self.pos = None
+        self.pos = nx.spring_layout(h.graph, seed=42)
         self.node_colors = {}
         self.used_colors = set()
-        self.changed = []
-        self.best_partition = None
+        self.changed = set()
+        self.best_partition = h.partition
         
     def random_color(self):
         return (random(), random(), random())
         
-    def modularity(self, partition):
+    def modularity(self):
         m = self.h.graph.number_of_edges()
         Q = 0
-        for community in partition:
+        for community in self.best_partition:
             community_nodes = set(community)
-            lc = 0
-            dc = 0
+            lc = 0 
+            dc = 0 
             for u in community_nodes:
                 dc += self.h.graph.degree(u)
                 for v in self.h.graph.neighbors(u):
@@ -59,7 +58,6 @@ class LocalSearch:
         ax.set_title(title)
         canvas.draw()
 
-        # compatibilidade RGB / ARGB
         try:
             buf = canvas.tostring_rgb()
             frame = np.frombuffer(buf, dtype="uint8")
@@ -79,6 +77,12 @@ class LocalSearch:
         if not hasattr(self, "changed"):
             self.changed = set()
             
+        for comm in self.h.partition:
+            color = self.random_color()
+            self.used_colors.add(color)
+            for node in comm:
+                self.node_colors[node] = color
+            
         while melhoria:
             melhoria = False
             for node in self.h.graph.nodes():
@@ -88,13 +92,13 @@ class LocalSearch:
                     and c != current_comm]
                 
                 best_comm = current_comm
-                best_mod = max(self.modularity(partition),
-                               self.original_modularity)
+                best_mod = max(self.modularity(),
+                                self.original_modularity)
                 
                 for nc in neighbor_comms:
                     current_comm.remove(node)
                     nc.append(node)
-                    new_mod = self.modularity(partition)
+                    new_mod = self.modularity()
                     
                     if new_mod > best_mod:
                         best_mod = new_mod
@@ -120,5 +124,6 @@ class LocalSearch:
                         self.changed.add(node)
                     
                     self.save_frame(title=f"Nó {node} movido")
-                    
+        
+        self.best_partition = partition
         return partition
